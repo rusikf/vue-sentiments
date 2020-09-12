@@ -9,59 +9,27 @@
       </tr>
     </thead>
     <tbody>
-      <tr class='sentiments-table_row'>
-        <td>Melissa</td>
-        <td>I think this coffee is awesome!</td>
-        <td class='sentiments-table_actions'>
-          <font-awesome-icon icon="thumbs-up" class='sentiments-table_left-icon'/>
-          <font-awesome-icon icon="thumbs-down"/>
-        </td>
-        <td>Correct</td>
-      </tr>
-      <tr class='sentiments-table_row_active'>
-        <td>John</td>
-        <td>I think this coffee is tasty</td>
-        <td>-</td>
-        <td>Not correct</td>
-      </tr>
-      <tr class='sentiments-table_row'>
-        <td>Jack</td>
-        <td>Bad coffee</td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr class='sentiments-table_row'>
-        <td>Paulo</td>
-        <td>Looks great!</td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr class='sentiments-table_row'>
-        <td>Jim</td>
-        <td>Looks bad</td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr class='sentiments-table_row'>
-        <td>Suzan</td>
-        <td>Looks awesome</td>
-        <td></td>
-        <td></td>
-      </tr>
+      <Sentiment v-for="item in list" :item="item" :key="item.id"/>
     </tbody>
   </table>
 </template>
 
 <script>
+import defaultList from './stub_api_list'
+import { mapState, mapMutations } from 'vuex'
+import Sentiment from './sentiment'
+
 export default {
   name: 'SentimentsList',
-  props: {
-    msg: String
-  }
+  components: { Sentiment },
+  created() { this.setList(defaultList) },
+  methods: mapMutations('sentiments', ['setList']),
+  computed: mapState('sentiments', ['list'])
 }
+
 </script>
 
-<style scoped>
+<style>
 /* TODO: move all to scss */
 @import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300&display=swap');
 
@@ -91,6 +59,14 @@ export default {
   color: #ffffff;
 }
 
+.sentiments-table_actions a {
+  color: #dadada;
+}
+.sentiments-table_actions a:active,
+.sentiments-table_actions a.active {
+  color: #a1a1f7;
+}
+
 .sentiments-table th,
 .sentiments-table td {
   padding: 12px 15px;
@@ -109,8 +85,4 @@ export default {
   border-bottom: 2px solid #5796d8;
 }
 
-.sentiments-table_row_active {
-  font-weight: bold;
-  color: #5796d8;
-}
 </style>
